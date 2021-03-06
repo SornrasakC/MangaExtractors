@@ -19,3 +19,5 @@ npm start
 ## Idea
 Basically, it just relies on [dom-to-image](https://github.com/tsayen/dom-to-image) to convert each page to image and zipped them.
 
+## Links
+* [WataNare] (https://seiga.nicovideo.jp/comic/47265)
