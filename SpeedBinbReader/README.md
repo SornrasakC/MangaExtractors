@@ -23,3 +23,4 @@ Basically, it just relies on [dom-to-image](https://github.com/tsayen/dom-to-ima
 ## Links
 * [HimeGimi](http://storia.takeshobo.co.jp/manga/himegimi/)
 * [KimiTsugu](http://storia.takeshobo.co.jp/manga/kiminitsumugu/)
+* [Wortenia](https://hobbyjapan.co.jp/comic/series/wortenia/)
