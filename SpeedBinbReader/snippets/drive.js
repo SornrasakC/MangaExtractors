@@ -1,80 +1,91 @@
 if (!domtoimage) {
     domtoimage = globalThis.domtoimage;
-  }
-  if (!saveAs) {
+}
+if (!saveAs) {
     saveAs = globalThis.FS_saveAs;
-  }
-  if (!JSZip) {
+}
+if (!JSZip) {
     JSZip = globalThis.JSZip;
-  }
-  
-  chapter = window.location.href.split("/")[6] || "CHAP";
-  title = `HimeGimi${chapter}`;
-  drivee();
-  
-  function saveBase64AsFile(base64, fileName) {
+}
+
+// ############# RESIZE TO X: 1400px ################
+chapter = window.location.href.split("/")[6] || "CHAP";
+TITLE = `HimeGimi Ch.${chapter}`;
+START_PAGE = 0;
+END_PAGE = 30;
+
+main();
+
+function saveBase64AsFile(base64, fileName) {
     var link = document.createElement("a");
-  
+
     link.setAttribute("href", base64);
     link.setAttribute("download", fileName);
     link.click();
-  
+
     console.log("clicked:", fileName);
-  }
-  
-  function extract(id, ii, end, data) {
+}
+
+async function extract(id, end, data) {
     if (id >= end) {
-      fin(data);
-      return;
+        fin(data);
+        return;
     }
-    //     if(id < 10) { id = '0' + id}
-  
-    //     container = document.querySelector(`[data-ptimg="data/00${id}.ptimg.json"]`)
+
     container = document.getElementById(`content-p${id}`);
     if (!container || !container.children[0]) {
-      console.log("missing:", id);
-      extract(id + 1, ii, end, data);
-      return;
+        console.log("missing:", id);
+        extract(id + 1, end, data);
+        return;
     }
-  
-    ii.ii = ii.ii >= 0 ? ii.ii : id;
-  
+    // container.scrollIntoView()
+
+    const X = (elem) => elem.getBoundingClientRect().x;
+    
+    const contents = document.getElementById("contents");
+    const evtUp = new WheelEvent('mousewheel', {deltaY: 100, view: window, bubbles: true})
+    const evtDown = new WheelEvent('mousewheel', {deltaY: -100, view: window, bubbles: true})
+    
+    while (X(container) < 0 || 800 < X(container)) {
+        if (X(container) < 0) {
+            contents.dispatchEvent(evtDown); // PAGE SLIDES LEFT to RIGHT
+            console.log('Wheeled Down')
+            await new Promise(r => setTimeout(r, 1500));
+            continue;
+        }
+        contents.dispatchEvent(evtUp); // PAGE SLIDES RIGHT to LEFT
+        console.log('Wheeled Up')
+        await new Promise(r => setTimeout(r, 1500));
+    }
+
     console.log("started:", id);
-  
+
     node = container.children[0];
     domtoimage
-      .toPng(node)
-      .then(function (dataUrl) {
-        data.data = [...data.data, { dataUrl, id }];
-        extract(id + 1, ii, end, data);
-      })
-      .catch(function (error) {
-        console.error("oops, something went wrong!", error);
-      });
-  }
-  
-  function drivee(title) {
+        .toPng(node)
+        .then(function (dataUrl) {
+            data.data = [...data.data, { dataUrl, id }];
+            extract(id + 1, end, data);
+        })
+        .catch(function (error) {
+            console.error("oops, something went wrong!", error);
+        });
+}
+
+function main() {
     console.log("STARTED");
-    let ii = { ii: -1 };
     let data = { data: [] };
-    let node;
-  
-    extract(0, ii, 30, data);
-    //     for (let i = 0; i < 30; i++) {
-    //         setTimeout(() => extract(i, title, ii), 3000);
-    //     }
-  }
-  
-  function fin(data) {
+
+    extract(START_PAGE, END_PAGE, data);
+}
+
+function fin(data) {
     let zip = new JSZip();
     let folder = zip.folder("collection");
     data.data.forEach(({ dataUrl, id }) => {
-      dat = dataUrl.split("base64,")[1];
-      folder.file(`${title}-${id}.png`, dat, { base64: true });
+        dat = dataUrl.split("base64,")[1];
+        folder.file(`${TITLE}-${id}.png`, dat, { base64: true });
     });
-  
-    folder
-      .generateAsync({ type: "blob" })
-      .then((content) => saveAs(content, "files"));
-  }
-  
+
+    folder.generateAsync({ type: "blob" }).then((content) => saveAs(content, "files"));
+}
