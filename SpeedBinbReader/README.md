@@ -1,4 +1,4 @@
-# Binb Extracts
+# BinB Reader
 
 ## Usage
 1. open terminal
