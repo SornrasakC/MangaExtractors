@@ -15,8 +15,11 @@ npm start
 8. The images are then packed into zip file, save them anywhere you want.
 
 ## Configure
-[TITLE, START, END](https://github.com/SornrasakC/MangaExtractors/blob/main/SpeedBinbReader/snippets/drive.js#L13) can be changed to whatever you want.
+[TITLE, START, END](snippets/drive.js#L13) can be changed to whatever you want.
 
 ## Idea
 Basically, it just relies on [dom-to-image](https://github.com/tsayen/dom-to-image) to convert each page to image and zipped them.
 
+## Links
+* [HimeGimi](http://storia.takeshobo.co.jp/manga/himegimi/)
+* [KimiTsugu](http://storia.takeshobo.co.jp/manga/kiminitsumugu/)
