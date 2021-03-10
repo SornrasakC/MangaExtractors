@@ -7,7 +7,7 @@ npm i (if not yet)
 npm start
 ```
 2. Then copy [drive.js](snippets/drive.js) and [prep.js](snippets/prep.js) to [chrome dev tool snippets](https://developers.google.com/web/tools/chrome-devtools/javascript/snippets).
-3. Open a page you want to download. (that is using BinB..)
+3. Open a page you want to download.
 4. Run prep.js from dev tool
 5. Run drive.js from dev tool
 6. Wait and don't move away from the screen.
