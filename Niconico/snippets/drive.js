@@ -8,12 +8,12 @@ if (!JSZip) {
     JSZip = globalThis.JSZip;
 }
 
-CHAPTER = document.getElementsByClassName('episode_title')[0].textContent.match(/\d+/)[0];
+CHAPTER = document.getElementsByClassName("episode_title")[0].textContent.match(/\d+/)[0];
 
 TITLE = `KoibitoMuriMuri Ch.${CHAPTER}`;
 
-START_PAGE = 0
-END_PAGE = 30
+START_PAGE = 0;
+END_PAGE = 60;
 main();
 
 function saveBase64AsFile(base64, fileName) {
@@ -26,7 +26,7 @@ function saveBase64AsFile(base64, fileName) {
     console.log("clicked:", fileName);
 }
 
-function extract(id, end, data) {
+async function extract(id, end, data) {
     if (id >= end) {
         fin(data);
         return;
@@ -38,9 +38,17 @@ function extract(id, end, data) {
         extract(id + 1, end, data);
         return;
     }
-    container.scrollIntoView()
+    container.scrollIntoView();
 
-    while(container.children[0].children.length < 3) {}
+    if (container.children[0].children.length < 3) {
+        console.log("Waited", id);
+        await new Promise((r) => setTimeout(r, 2000));
+    }
+
+    //     while(container.children[0].children.length < 3) {
+    //         console.log("Waiting")
+    //         container.scrollIntoView()
+    //     }
 
     console.log("started:", id);
 
@@ -64,7 +72,7 @@ function main() {
 }
 
 function fin(data) {
-    console.log('Finalized')
+    console.log("Finalized");
     let zip = new JSZip();
     let folder = zip.folder("collection");
     data.data.forEach(({ dataUrl, id }) => {

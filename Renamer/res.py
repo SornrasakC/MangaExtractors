@@ -7,7 +7,11 @@ DIR = os.path.dirname(os.path.realpath(__file__)) + '\\WorkSpace\\'
 
 class RES_CLASS():
     def __init__(self):
-        pass
+        self.NAME = ''
+        self.PAGE = 0
+        self.FORMAT = ''
+        self.DYNAMIC = 0
+        self.NEWNAME = ''
 RES = RES_CLASS()
 
 with open('res.txt', 'r') as f:
