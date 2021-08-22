@@ -5,3 +5,6 @@ But, this will mainly focus on japanese one. Aggregation sites already has some 
 
 ## Motivation
 Raw manga sites has their own expiration date for each updates, so here I am trying to saves them locally.
+
+## Migrated
+To use as [Chrome extension](https://github.com/SornrasakC/MEextension)
